@@ -1,709 +1,717 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Absen Karyawan</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            box-sizing: border-box;
-        }
-        .fade-in {
-            animation: fadeIn 0.3s ease-in;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-gray-800 mb-2">📋 Sistem Absen Karyawan</h1>
-            <p class="text-gray-600">Kelola kehadiran karyawan dengan mudah</p>
-        </div>
+{\rtf1\ansi\ansicpg1252\cocoartf2865
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-        <!-- Clock In/Out Section -->
-        <div class="max-w-md mx-auto mb-8">
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Absen Sekarang</h2>
-                
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Nama Karyawan</label>
-                    <select id="employeeName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">Pilih Nama Karyawan</option>
-                        <option value="Rahma">Rahma</option>
-                        <option value="Jubaida">Jubaida</option>
-                        <option value="Fatma">Fatma</option>
-                        <option value="Andi">Andi</option>
-                        <option value="Tini">Tini</option>
-                        <option value="Haikal">Haikal</option>
-                        <option value="Hasna">Hasna</option>
-                        <option value="Riski">Riski</option>
-                    </select>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Divisi</label>
-                    <select id="employeeDivision" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">Pilih Divisi</option>
-                        <option value="Staff Kantor">Staff Kantor</option>
-                        <option value="Parkir">Parkir</option>
-                        <option value="Kantin">Kantin</option>
-                        <option value="Kebersihan">Kebersihan</option>
-                        <option value="BDLink & Penginapan">BDLink & Penginapan</option>
-                        <option value="BD Link">BD Link</option>
-                    </select>
-                </div>
-
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Shift Kerja</label>
-                    <select id="employeeShift" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">Pilih Shift</option>
-                        <option value="kantor">Shift Kantor (08:00 - 16:00)</option>
-                        <option value="kantin_siang">Kantin Siang (09:00 - 16:00)</option>
-                        <option value="kantin_sore">Kantin Sore (16:00 - 23:59)</option>
-                        <option value="kantin_malam">Kantin Malam (23:45 - 09:00)</option>
-                        <option value="parkir">Parkir (23:45 - 09:00)</option>
-                        <option value="bdlink_penginapan">BDLink & Penginapan (23:00 - 09:00)</option>
-                    </select>
-                </div>
-
-                <!-- Camera Section -->
-                <div class="mb-6 border-t pt-4">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-3 text-center">📸 Foto Selfie (Wajib)</h3>
-                    <div id="cameraPermissionNotice" class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3 text-sm text-blue-800">
-                        💡 <strong>Info:</strong> Sistem akan meminta izin kamera otomatis. Klik "Allow/Izinkan" untuk menggunakan fitur absen.
-                    </div>
-                    
-                    <div id="cameraSection" class="text-center">
-                        <video id="video" class="w-full max-w-xs mx-auto rounded-lg border-2 border-gray-300 mb-3 hidden" autoplay></video>
-                        <canvas id="canvas" class="hidden"></canvas>
-                        <img id="photoPreview" class="w-full max-w-xs mx-auto rounded-lg border-2 border-green-300 mb-3 hidden" alt="Foto Selfie">
-                        
-                        <div id="cameraButtons">
-                            <button id="startCameraBtn" onclick="startCamera()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 mb-2">
-                                📷 Buka Kamera
-                            </button>
-                            <button id="takePictureBtn" onclick="takePicture()" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 mb-2 hidden">
-                                📸 Ambil Foto
-                            </button>
-                            <button id="retakePictureBtn" onclick="retakePicture()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 mb-2 hidden">
-                                🔄 Foto Ulang
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex gap-3">
-                    <button onclick="clockIn()" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200">
-                        🕐 Masuk
-                    </button>
-                    <button onclick="clockOut()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200">
-                        🕐 Pulang
-                    </button>
-                </div>
-
-                <div id="statusMessage" class="mt-4 p-3 rounded-lg text-center hidden"></div>
-            </div>
-        </div>
-
-        <!-- Admin Access Button -->
-        <div class="max-w-md mx-auto">
-            <div class="text-center">
-                <button id="showAdminBtn" onclick="showAdminLogin()" class="text-gray-500 hover:text-gray-700 text-sm underline transition duration-200">
-                    Admin? Klik di sini
-                </button>
-            </div>
-        </div>
-
-        <!-- Admin Access Section -->
-        <div id="adminSection" class="max-w-md mx-auto mb-8 hidden">
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">🔐 Akses Admin</h2>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Password Admin</label>
-                    <input type="password" id="adminPassword" placeholder="Masukkan password admin" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                </div>
-                <button onclick="checkAdminAccess()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200">
-                    🔓 Masuk sebagai Admin
-                </button>
-            </div>
-        </div>
-
-        <!-- Admin Dashboard -->
-        <div id="exportSection" class="max-w-4xl mx-auto hidden">
-            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-semibold text-gray-800">📊 Dashboard Admin</h2>
-                    <div class="flex items-center text-sm text-green-600">
-                        <div class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
-                        <span>Live Update</span>
-                    </div>
-                </div>
-                
-                <!-- Statistics -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    <div class="bg-blue-50 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-blue-600" id="totalRecords">0</div>
-                        <div class="text-sm text-blue-800">Total Records</div>
-                    </div>
-                    <div class="bg-green-50 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-green-600" id="todayAttendance">0</div>
-                        <div class="text-sm text-green-800">Hari Ini</div>
-                    </div>
-                    <div class="bg-yellow-50 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-yellow-600" id="lateEmployees">0</div>
-                        <div class="text-sm text-yellow-800">Terlambat</div>
-                    </div>
-                    <div class="bg-red-50 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-red-600" id="incompleteRecords">0</div>
-                        <div class="text-sm text-red-800">Belum Pulang</div>
-                    </div>
-                </div>
-
-                <!-- Data Table -->
-                <div class="mb-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-3">📋 Data Absensi Terbaru</h3>
-                    <div class="overflow-x-auto max-h-96 border rounded-lg">
-                        <table class="w-full text-sm">
-                            <thead class="bg-gray-50 sticky top-0">
-                                <tr>
-                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Tanggal</th>
-                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Nama</th>
-                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Divisi</th>
-                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Shift</th>
-                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Masuk</th>
-                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Pulang</th>
-                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dataTableBody">
-                                <!-- Data will be populated here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Export Actions -->
-                <div class="bg-gray-50 rounded-lg p-4 mb-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">📤 Aksi Data Absensi</h3>
-                    
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-                        <button onclick="exportToCSV()" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 text-sm">
-                            📥 Export Laporan
-                        </button>
-                        <button onclick="shareViaWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 text-sm">
-                            📱 Share WhatsApp
-                        </button>
-                        <button onclick="shareViaEmail()" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 text-sm">
-                            📧 Share Email
-                        </button>
-                        <button onclick="clearData()" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 text-sm">
-                            🗑️ Hapus Data
-                        </button>
-                    </div>
-                    
-                    <div class="border-t pt-4">
-                        <button onclick="logout()" class="w-full bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
-                            🚪 Keluar Admin
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Initialize data
-        let attendanceData = JSON.parse(localStorage.getItem('attendanceData')) || [];
-        const ADMIN_PASSWORD = "Amranbd110418";
-        let isAdminLoggedIn = false;
-        let stream = null;
-        let currentPhoto = null;
-
-        // Load data on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            checkAdminStatus();
-            setTimeout(() => {
-                requestCameraPermission();
-            }, 1000);
-        });
-
-        function checkAdminStatus() {
-            isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
-            if (isAdminLoggedIn) {
-                showAdminPanel();
-            }
-        }
-
-        function showAdminLogin() {
-            document.getElementById('adminSection').classList.remove('hidden');
-            document.getElementById('showAdminBtn').style.display = 'none';
-        }
-
-        function checkAdminAccess() {
-            const password = document.getElementById('adminPassword').value;
-            
-            if (password === ADMIN_PASSWORD) {
-                isAdminLoggedIn = true;
-                localStorage.setItem('adminLoggedIn', 'true');
-                showAdminPanel();
-                showMessage('Berhasil masuk sebagai admin!', 'success');
-            } else {
-                showMessage('Password admin salah!', 'error');
-            }
-        }
-
-        function showAdminPanel() {
-            document.getElementById('adminSection').classList.add('hidden');
-            document.getElementById('exportSection').classList.remove('hidden');
-            document.getElementById('showAdminBtn').style.display = 'none';
-            loadAdminDashboard();
-        }
-
-        function logout() {
-            isAdminLoggedIn = false;
-            localStorage.removeItem('adminLoggedIn');
-            document.getElementById('exportSection').classList.add('hidden');
-            document.getElementById('adminSection').classList.add('hidden');
-            document.getElementById('showAdminBtn').style.display = 'block';
-            document.getElementById('adminPassword').value = '';
-            showMessage('Berhasil keluar dari admin', 'success');
-        }
-
-        // Camera functions
-        async function requestCameraPermission() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { 
-                        facingMode: 'user',
-                        width: { ideal: 640 },
-                        height: { ideal: 480 }
-                    } 
-                });
-                
-                stream.getTracks().forEach(track => track.stop());
-                console.log('Camera permission granted');
-                return true;
-            } catch (error) {
-                console.error('Camera permission denied:', error);
-                showMessage('Izin kamera diperlukan untuk sistem absen. Mohon berikan izin kamera di pengaturan browser.', 'error');
-                return false;
-            }
-        }
-
-        async function startCamera() {
-            try {
-                stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { 
-                        facingMode: 'user',
-                        width: { ideal: 640 },
-                        height: { ideal: 480 }
-                    } 
-                });
-                
-                const video = document.getElementById('video');
-                video.srcObject = stream;
-                video.classList.remove('hidden');
-                
-                document.getElementById('startCameraBtn').classList.add('hidden');
-                document.getElementById('takePictureBtn').classList.remove('hidden');
-                
-            } catch (error) {
-                console.error('Error accessing camera:', error);
-                showMessage('Tidak dapat mengakses kamera. Pastikan izin kamera diberikan.', 'error');
-            }
-        }
-
-        function takePicture() {
-            const video = document.getElementById('video');
-            const canvas = document.getElementById('canvas');
-            const photoPreview = document.getElementById('photoPreview');
-            
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            
-            const context = canvas.getContext('2d');
-            context.drawImage(video, 0, 0);
-            
-            currentPhoto = canvas.toDataURL('image/jpeg', 0.8);
-            
-            photoPreview.src = currentPhoto;
-            photoPreview.classList.remove('hidden');
-            
-            video.classList.add('hidden');
-            document.getElementById('takePictureBtn').classList.add('hidden');
-            document.getElementById('retakePictureBtn').classList.remove('hidden');
-            
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-            }
-            
-            showMessage('Foto berhasil diambil!', 'success');
-        }
-
-        function retakePicture() {
-            currentPhoto = null;
-            
-            document.getElementById('photoPreview').classList.add('hidden');
-            document.getElementById('retakePictureBtn').classList.add('hidden');
-            document.getElementById('startCameraBtn').classList.remove('hidden');
-        }
-
-        function getCurrentDateTime() {
-            return new Date();
-        }
-
-        function formatDateTime(date) {
-            return date.toLocaleString('id-ID', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-        }
-
-        function formatDate(date) {
-            return date.toLocaleDateString('id-ID');
-        }
-
-        function formatTime(date) {
-            return date.toLocaleTimeString('id-ID', {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
-
-        function showMessage(message, type) {
-            const messageDiv = document.getElementById('statusMessage');
-            messageDiv.textContent = message;
-            messageDiv.className = `mt-4 p-3 rounded-lg text-center fade-in ${type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
-            messageDiv.classList.remove('hidden');
-            
-            setTimeout(() => {
-                messageDiv.classList.add('hidden');
-            }, 3000);
-        }
-
-        function clockIn() {
-            const name = document.getElementById('employeeName').value;
-            const division = document.getElementById('employeeDivision').value;
-            const shift = document.getElementById('employeeShift').value;
-
-            if (!name || !division || !shift) {
-                showMessage('Mohon isi nama, pilih divisi, dan pilih shift', 'error');
-                return;
-            }
-
-            if (!currentPhoto) {
-                showMessage('Mohon ambil foto selfie terlebih dahulu!', 'error');
-                return;
-            }
-
-            const now = getCurrentDateTime();
-            const today = formatDate(now);
-
-            // Check if already clocked in today
-            const existingRecord = attendanceData.find(record => 
-                record.employeeName === name && record.division === division && record.date === today && record.shift === shift
-            );
-
-            if (existingRecord && existingRecord.clockIn) {
-                showMessage('Anda sudah absen masuk hari ini', 'error');
-                return;
-            }
-
-            // Create or update record
-            if (existingRecord) {
-                existingRecord.clockIn = now;
-                existingRecord.clockInTime = formatTime(now);
-            } else {
-                attendanceData.push({
-                    date: today,
-                    employeeName: name,
-                    division: division,
-                    shift: shift,
-                    clockIn: now,
-                    clockInTime: formatTime(now),
-                    clockOut: null,
-                    clockOutTime: '-',
-                    totalHours: '-',
-                    status: 'Masuk',
-                    clockInPhoto: currentPhoto,
-                    clockOutPhoto: null
-                });
-            }
-
-            saveData();
-            
-            if (isAdminLoggedIn) {
-                updateAdminDashboard();
-            }
-            
-            showMessage(`Berhasil absen masuk pada ${formatTime(now)}`, 'success');
-            resetCamera();
-        }
-
-        function clockOut() {
-            const name = document.getElementById('employeeName').value;
-            const division = document.getElementById('employeeDivision').value;
-            const shift = document.getElementById('employeeShift').value;
-
-            if (!name || !division || !shift) {
-                showMessage('Mohon isi nama, pilih divisi, dan pilih shift', 'error');
-                return;
-            }
-
-            if (!currentPhoto) {
-                showMessage('Mohon ambil foto selfie terlebih dahulu!', 'error');
-                return;
-            }
-
-            const now = getCurrentDateTime();
-            const today = formatDate(now);
-
-            // Find today's record
-            const record = attendanceData.find(record => 
-                record.employeeName === name && record.division === division && record.date === today && record.shift === shift
-            );
-
-            if (!record || !record.clockIn) {
-                showMessage('Anda belum absen masuk hari ini', 'error');
-                return;
-            }
-
-            if (record.clockOut) {
-                showMessage('Anda sudah absen pulang hari ini', 'error');
-                return;
-            }
-
-            // Update record
-            record.clockOut = now;
-            record.clockOutTime = formatTime(now);
-            record.clockOutPhoto = currentPhoto;
-            
-            // Calculate total hours
-            const diffMs = now - record.clockIn;
-            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-            const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-            record.totalHours = `${diffHours}j ${diffMinutes}m`;
-            record.status = 'Selesai';
-
-            saveData();
-            
-            if (isAdminLoggedIn) {
-                updateAdminDashboard();
-            }
-            
-            showMessage(`Berhasil absen pulang pada ${formatTime(now)}`, 'success');
-            resetCamera();
-        }
-
-        function resetCamera() {
-            currentPhoto = null;
-            
-            document.getElementById('video').classList.add('hidden');
-            document.getElementById('photoPreview').classList.add('hidden');
-            document.getElementById('takePictureBtn').classList.add('hidden');
-            document.getElementById('retakePictureBtn').classList.add('hidden');
-            document.getElementById('startCameraBtn').classList.remove('hidden');
-            
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
-            }
-        }
-
-        function saveData() {
-            localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
-        }
-
-        function loadAdminDashboard() {
-            updateStatistics();
-            loadDataTable();
-        }
-
-        function updateAdminDashboard() {
-            if (!document.getElementById('exportSection').classList.contains('hidden')) {
-                updateStatistics();
-                loadDataTable();
-                
-                const notification = document.createElement('div');
-                notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 fade-in';
-                notification.innerHTML = '✅ Dashboard diperbarui otomatis!';
-                document.body.appendChild(notification);
-                
-                setTimeout(() => {
-                    if (document.body.contains(notification)) {
-                        document.body.removeChild(notification);
-                    }
-                }, 3000);
-            }
-        }
-
-        function updateStatistics() {
-            const today = formatDate(new Date());
-            const todayRecords = attendanceData.filter(record => record.date === today);
-            const incompleteRecords = attendanceData.filter(record => record.clockIn && !record.clockOut);
-
-            document.getElementById('totalRecords').textContent = attendanceData.length;
-            document.getElementById('todayAttendance').textContent = todayRecords.length;
-            document.getElementById('lateEmployees').textContent = '0';
-            document.getElementById('incompleteRecords').textContent = incompleteRecords.length;
-        }
-
-        function loadDataTable() {
-            const sortedData = [...attendanceData].sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            const tableBody = document.getElementById('dataTableBody');
-            tableBody.innerHTML = '';
-
-            sortedData.slice(0, 10).forEach(record => {
-                const row = document.createElement('tr');
-                row.className = 'hover:bg-gray-50';
-                
-                const status = !record.clockOut ? 'Belum Pulang' : 'Selesai';
-                const statusClass = !record.clockOut ? 'text-red-600' : 'text-green-600';
-
-                row.innerHTML = `
-                    <td class="px-3 py-2">${record.date}</td>
-                    <td class="px-3 py-2">${record.employeeName}</td>
-                    <td class="px-3 py-2">${record.division}</td>
-                    <td class="px-3 py-2">${record.shift}</td>
-                    <td class="px-3 py-2 text-center">${record.clockInTime || '-'}</td>
-                    <td class="px-3 py-2 text-center">${record.clockOutTime || '-'}</td>
-                    <td class="px-3 py-2 text-center ${statusClass}">${status}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        function exportToCSV() {
-            if (attendanceData.length === 0) {
-                showMessage('Tidak ada data untuk diekspor', 'error');
-                return;
-            }
-
-            const sortedData = [...attendanceData].sort((a, b) => new Date(b.date) - new Date(a.date));
-            const currentDate = new Date().toLocaleDateString('id-ID', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-
-            const htmlContent = `<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Laporan Absensi Karyawan</title>
-    <style>
-        @page { size: A4; margin: 1in; }
-        body { font-family: Arial, sans-serif; font-size: 12px; }
-        .header { text-align: center; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
-        th { background-color: #f0f0f0; font-weight: bold; }
-        @media print { body { print-color-adjust: exact; } }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h2>LAPORAN KEHADIRAN KARYAWAN</h2>
-        <p>Tanggal: ${currentDate}</p>
-        <p>Total Records: ${sortedData.length}</p>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Tanggal</th>
-                <th>Nama</th>
-                <th>Divisi</th>
-                <th>Shift</th>
-                <th>Jam Masuk</th>
-                <th>Jam Pulang</th>
-                <th>Total Jam</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${sortedData.map((record, index) => `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${record.date}</td>
-                    <td>${record.employeeName}</td>
-                    <td>${record.division}</td>
-                    <td>${record.shift}</td>
-                    <td>${record.clockInTime || '-'}</td>
-                    <td>${record.clockOutTime || '-'}</td>
-                    <td>${record.totalHours || '-'}</td>
-                    <td>${!record.clockOut ? 'Belum Pulang' : 'Selesai'}</td>
-                </tr>
-            `).join('')}
-        </tbody>
-    </table>
-</body>
-</html>`;
-
-            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Laporan_Absensi_${new Date().toISOString().split('T')[0]}.html`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showMessage('Laporan berhasil diunduh!', 'success');
-        }
-
-        function shareViaWhatsApp() {
-            const today = formatDate(new Date());
-            const todayRecords = attendanceData.filter(record => record.date === today);
-            
-            const message = `🏢 *LAPORAN ABSENSI KARYAWAN*\n\n` +
-                          `📅 *Tanggal:* ${today}\n` +
-                          `📊 *Statistik Hari Ini:*\n` +
-                          `• Total Absen: ${todayRecords.length} orang\n` +
-                          `• Sudah Pulang: ${todayRecords.filter(r => r.clockOut).length} orang\n` +
-                          `• Belum Pulang: ${todayRecords.filter(r => r.clockIn && !r.clockOut).length} orang\n\n` +
-                          `📈 *Total Keseluruhan:* ${attendanceData.length} records\n\n` +
-                          `✨ Sistem Absensi Digital`;
-
-            const encodedMessage = encodeURIComponent(message);
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            const whatsappUrl = isMobile ? `https://wa.me/?text=${encodedMessage}` : `https://web.whatsapp.com/send?text=${encodedMessage}`;
-            
-            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-            showMessage('WhatsApp terbuka! Laporan siap dibagikan.', 'success');
-        }
-
-        function shareViaEmail() {
-            const today = formatDate(new Date());
-            const subject = encodeURIComponent(`Laporan Absensi Karyawan - ${today}`);
-            const body = encodeURIComponent(`Laporan absensi karyawan tanggal ${today}\n\nTotal records: ${attendanceData.length}\n\nSistem Absensi Digital`);
-            
-            window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
-            showMessage('Email client terbuka! Laporan siap dikirim.', 'success');
-        }
-
-        function clearData() {
-            if (confirm('PERINGATAN: Ini akan menghapus SEMUA data absensi!\n\nApakah Anda yakin?')) {
-                attendanceData = [];
-                saveData();
-                loadAdminDashboard();
-                showMessage('Semua data berhasil dihapus!', 'success');
-            }
-        }
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9899c5efd6746034',t:'MTc1OTYzNDMyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="id">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>Sistem Absen Karyawan</title>\
+    <script src="https://cdn.tailwindcss.com"></script>\
+    <style>\
+        body \{\
+            box-sizing: border-box;\
+        \}\
+        .fade-in \{\
+            animation: fadeIn 0.3s ease-in;\
+        \}\
+        @keyframes fadeIn \{\
+            from \{ opacity: 0; transform: translateY(10px); \}\
+            to \{ opacity: 1; transform: translateY(0); \}\
+        \}\
+    </style>\
+</head>\
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">\
+    <div class="container mx-auto px-4 py-8">\
+        <!-- Header -->\
+        <div class="text-center mb-8">\
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">\uc0\u55357 \u56523  Sistem Absen Karyawan</h1>\
+            <p class="text-gray-600">Kelola kehadiran karyawan dengan mudah</p>\
+        </div>\
+\
+        <!-- Clock In/Out Section -->\
+        <div class="max-w-md mx-auto mb-8">\
+            <div class="bg-white rounded-xl shadow-lg p-6">\
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Absen Sekarang</h2>\
+                \
+                <div class="mb-4">\
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nama Karyawan</label>\
+                    <select id="employeeName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">\
+                        <option value="">Pilih Nama Karyawan</option>\
+                        <option value="Rahma">Rahma</option>\
+                        <option value="Jubaida">Jubaida</option>\
+                        <option value="Fatma">Fatma</option>\
+                        <option value="Andi">Andi</option>\
+                        <option value="Tini">Tini</option>\
+                        <option value="Haikal">Haikal</option>\
+                        <option value="Hasna">Hasna</option>\
+                        <option value="Riski">Riski</option>\
+                    </select>\
+                </div>\
+\
+                <div class="mb-4">\
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Divisi</label>\
+                    <select id="employeeDivision" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">\
+                        <option value="">Pilih Divisi</option>\
+                        <option value="Staff Kantor">Staff Kantor</option>\
+                        <option value="Parkir">Parkir</option>\
+                        <option value="Kantin">Kantin</option>\
+                        <option value="Kebersihan">Kebersihan</option>\
+                        <option value="BDLink & Penginapan">BDLink & Penginapan</option>\
+                        <option value="BD Link">BD Link</option>\
+                    </select>\
+                </div>\
+\
+                <div class="mb-6">\
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Shift Kerja</label>\
+                    <select id="employeeShift" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">\
+                        <option value="">Pilih Shift</option>\
+                        <option value="kantor">Shift Kantor (08:00 - 16:00)</option>\
+                        <option value="kantin_siang">Kantin Siang (09:00 - 16:00)</option>\
+                        <option value="kantin_sore">Kantin Sore (16:00 - 23:59)</option>\
+                        <option value="kantin_malam">Kantin Malam (23:45 - 09:00)</option>\
+                        <option value="parkir">Parkir (23:45 - 09:00)</option>\
+                        <option value="bdlink_penginapan">BDLink & Penginapan (23:00 - 09:00)</option>\
+                    </select>\
+                </div>\
+\
+                <!-- Camera Section -->\
+                <div class="mb-6 border-t pt-4">\
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3 text-center">\uc0\u55357 \u56568  Foto Selfie (Wajib)</h3>\
+                    <div id="cameraPermissionNotice" class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3 text-sm text-blue-800">\
+                        \uc0\u55357 \u56481  <strong>Info:</strong> Sistem akan meminta izin kamera otomatis. Klik "Allow/Izinkan" untuk menggunakan fitur absen.\
+                    </div>\
+                    \
+                    <div id="cameraSection" class="text-center">\
+                        <video id="video" class="w-full max-w-xs mx-auto rounded-lg border-2 border-gray-300 mb-3 hidden" autoplay></video>\
+                        <canvas id="canvas" class="hidden"></canvas>\
+                        <img id="photoPreview" class="w-full max-w-xs mx-auto rounded-lg border-2 border-green-300 mb-3 hidden" alt="Foto Selfie">\
+                        \
+                        <div id="cameraButtons">\
+                            <button id="startCameraBtn" onclick="startCamera()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 mb-2">\
+                                \uc0\u55357 \u56567  Buka Kamera\
+                            </button>\
+                            <button id="takePictureBtn" onclick="takePicture()" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 mb-2 hidden">\
+                                \uc0\u55357 \u56568  Ambil Foto\
+                            </button>\
+                            <button id="retakePictureBtn" onclick="retakePicture()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 mb-2 hidden">\
+                                \uc0\u55357 \u56580  Foto Ulang\
+                            </button>\
+                        </div>\
+                    </div>\
+                </div>\
+\
+                <div class="flex gap-3">\
+                    <button onclick="clockIn()" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200">\
+                        \uc0\u55357 \u56656  Masuk\
+                    </button>\
+                    <button onclick="clockOut()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200">\
+                        \uc0\u55357 \u56656  Pulang\
+                    </button>\
+                </div>\
+\
+                <div id="statusMessage" class="mt-4 p-3 rounded-lg text-center hidden"></div>\
+            </div>\
+        </div>\
+\
+        <!-- Admin Access Button -->\
+        <div class="max-w-md mx-auto">\
+            <div class="text-center">\
+                <button id="showAdminBtn" onclick="showAdminLogin()" class="text-gray-500 hover:text-gray-700 text-sm underline transition duration-200">\
+                    Admin? Klik di sini\
+                </button>\
+            </div>\
+        </div>\
+\
+        <!-- Admin Access Section -->\
+        <div id="adminSection" class="max-w-md mx-auto mb-8 hidden">\
+            <div class="bg-white rounded-xl shadow-lg p-6">\
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">\uc0\u55357 \u56592  Akses Admin</h2>\
+                <div class="mb-4">\
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Password Admin</label>\
+                    <input type="password" id="adminPassword" placeholder="Masukkan password admin" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">\
+                </div>\
+                <button onclick="checkAdminAccess()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200">\
+                    \uc0\u55357 \u56595  Masuk sebagai Admin\
+                </button>\
+            </div>\
+        </div>\
+\
+        <!-- Admin Dashboard -->\
+        <div id="exportSection" class="max-w-4xl mx-auto hidden">\
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">\
+                <div class="flex justify-between items-center mb-4">\
+                    <h2 class="text-2xl font-semibold text-gray-800">\uc0\u55357 \u56522  Dashboard Admin</h2>\
+                    <div class="flex items-center text-sm text-green-600">\
+                        <div class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>\
+                        <span>Live Update</span>\
+                    </div>\
+                </div>\
+                \
+                <!-- Statistics -->\
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">\
+                    <div class="bg-blue-50 p-4 rounded-lg text-center">\
+                        <div class="text-2xl font-bold text-blue-600" id="totalRecords">0</div>\
+                        <div class="text-sm text-blue-800">Total Records</div>\
+                    </div>\
+                    <div class="bg-green-50 p-4 rounded-lg text-center">\
+                        <div class="text-2xl font-bold text-green-600" id="todayAttendance">0</div>\
+                        <div class="text-sm text-green-800">Hari Ini</div>\
+                    </div>\
+                    <div class="bg-yellow-50 p-4 rounded-lg text-center">\
+                        <div class="text-2xl font-bold text-yellow-600" id="lateEmployees">0</div>\
+                        <div class="text-sm text-yellow-800">Terlambat</div>\
+                    </div>\
+                    <div class="bg-red-50 p-4 rounded-lg text-center">\
+                        <div class="text-2xl font-bold text-red-600" id="incompleteRecords">0</div>\
+                        <div class="text-sm text-red-800">Belum Pulang</div>\
+                    </div>\
+                </div>\
+\
+                <!-- Data Table -->\
+                <div class="mb-6">\
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">\uc0\u55357 \u56523  Data Absensi Terbaru</h3>\
+                    <div class="overflow-x-auto max-h-96 border rounded-lg">\
+                        <table class="w-full text-sm">\
+                            <thead class="bg-gray-50 sticky top-0">\
+                                <tr>\
+                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Tanggal</th>\
+                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Nama</th>\
+                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Divisi</th>\
+                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Shift</th>\
+                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Masuk</th>\
+                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Pulang</th>\
+                                    <th class="px-3 py-2 text-left font-medium text-gray-700">Status</th>\
+                                </tr>\
+                            </thead>\
+                            <tbody id="dataTableBody">\
+                                <!-- Data will be populated here -->\
+                            </tbody>\
+                        </table>\
+                    </div>\
+                </div>\
+\
+                <!-- Export Actions -->\
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">\
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">\uc0\u55357 \u56548  Aksi Data Absensi</h3>\
+                    \
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">\
+                        <button onclick="exportToCSV()" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 text-sm">\
+                            \uc0\u55357 \u56549  Export Laporan\
+                        </button>\
+                        <button onclick="shareViaWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 text-sm">\
+                            \uc0\u55357 \u56561  Share WhatsApp\
+                        </button>\
+                        <button onclick="shareViaEmail()" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 text-sm">\
+                            \uc0\u55357 \u56551  Share Email\
+                        </button>\
+                        <button onclick="clearData()" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 text-sm">\
+                            \uc0\u55357 \u56785 \u65039  Hapus Data\
+                        </button>\
+                    </div>\
+                    \
+                    <div class="border-t pt-4">\
+                        <button onclick="logout()" class="w-full bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">\
+                            \uc0\u55357 \u57002  Keluar Admin\
+                        </button>\
+                    </div>\
+                </div>\
+            </div>\
+        </div>\
+    </div>\
+\
+    <script>\
+        // Initialize data\
+        let attendanceData = JSON.parse(localStorage.getItem('attendanceData')) || [];\
+        const ADMIN_PASSWORD = "Amranbd110418";\
+        let isAdminLoggedIn = false;\
+        let stream = null;\
+        let currentPhoto = null;\
+\
+        // Load data on page load\
+        document.addEventListener('DOMContentLoaded', function() \{\
+            checkAdminStatus();\
+            setTimeout(() => \{\
+                requestCameraPermission();\
+            \}, 1000);\
+        \});\
+\
+        function checkAdminStatus() \{\
+            isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';\
+            if (isAdminLoggedIn) \{\
+                showAdminPanel();\
+            \}\
+        \}\
+\
+        function showAdminLogin() \{\
+            document.getElementById('adminSection').classList.remove('hidden');\
+            document.getElementById('showAdminBtn').style.display = 'none';\
+        \}\
+\
+        function checkAdminAccess() \{\
+            const password = document.getElementById('adminPassword').value;\
+            \
+            if (password === ADMIN_PASSWORD) \{\
+                isAdminLoggedIn = true;\
+                localStorage.setItem('adminLoggedIn', 'true');\
+                showAdminPanel();\
+                showMessage('Berhasil masuk sebagai admin!', 'success');\
+            \} else \{\
+                showMessage('Password admin salah!', 'error');\
+            \}\
+        \}\
+\
+        function showAdminPanel() \{\
+            document.getElementById('adminSection').classList.add('hidden');\
+            document.getElementById('exportSection').classList.remove('hidden');\
+            document.getElementById('showAdminBtn').style.display = 'none';\
+            loadAdminDashboard();\
+        \}\
+\
+        function logout() \{\
+            isAdminLoggedIn = false;\
+            localStorage.removeItem('adminLoggedIn');\
+            document.getElementById('exportSection').classList.add('hidden');\
+            document.getElementById('adminSection').classList.add('hidden');\
+            document.getElementById('showAdminBtn').style.display = 'block';\
+            document.getElementById('adminPassword').value = '';\
+            showMessage('Berhasil keluar dari admin', 'success');\
+        \}\
+\
+        // Camera functions\
+        async function requestCameraPermission() \{\
+            try \{\
+                const stream = await navigator.mediaDevices.getUserMedia(\{ \
+                    video: \{ \
+                        facingMode: 'user',\
+                        width: \{ ideal: 640 \},\
+                        height: \{ ideal: 480 \}\
+                    \} \
+                \});\
+                \
+                stream.getTracks().forEach(track => track.stop());\
+                console.log('Camera permission granted');\
+                return true;\
+            \} catch (error) \{\
+                console.error('Camera permission denied:', error);\
+                showMessage('Izin kamera diperlukan untuk sistem absen. Mohon berikan izin kamera di pengaturan browser.', 'error');\
+                return false;\
+            \}\
+        \}\
+\
+        async function startCamera() \{\
+            try \{\
+                stream = await navigator.mediaDevices.getUserMedia(\{ \
+                    video: \{ \
+                        facingMode: 'user',\
+                        width: \{ ideal: 640 \},\
+                        height: \{ ideal: 480 \}\
+                    \} \
+                \});\
+                \
+                const video = document.getElementById('video');\
+                video.srcObject = stream;\
+                video.classList.remove('hidden');\
+                \
+                document.getElementById('startCameraBtn').classList.add('hidden');\
+                document.getElementById('takePictureBtn').classList.remove('hidden');\
+                \
+            \} catch (error) \{\
+                console.error('Error accessing camera:', error);\
+                showMessage('Tidak dapat mengakses kamera. Pastikan izin kamera diberikan.', 'error');\
+            \}\
+        \}\
+\
+        function takePicture() \{\
+            const video = document.getElementById('video');\
+            const canvas = document.getElementById('canvas');\
+            const photoPreview = document.getElementById('photoPreview');\
+            \
+            canvas.width = video.videoWidth;\
+            canvas.height = video.videoHeight;\
+            \
+            const context = canvas.getContext('2d');\
+            context.drawImage(video, 0, 0);\
+            \
+            currentPhoto = canvas.toDataURL('image/jpeg', 0.8);\
+            \
+            photoPreview.src = currentPhoto;\
+            photoPreview.classList.remove('hidden');\
+            \
+            video.classList.add('hidden');\
+            document.getElementById('takePictureBtn').classList.add('hidden');\
+            document.getElementById('retakePictureBtn').classList.remove('hidden');\
+            \
+            if (stream) \{\
+                stream.getTracks().forEach(track => track.stop());\
+            \}\
+            \
+            showMessage('Foto berhasil diambil!', 'success');\
+        \}\
+\
+        function retakePicture() \{\
+            currentPhoto = null;\
+            \
+            document.getElementById('photoPreview').classList.add('hidden');\
+            document.getElementById('retakePictureBtn').classList.add('hidden');\
+            document.getElementById('startCameraBtn').classList.remove('hidden');\
+        \}\
+\
+        function getCurrentDateTime() \{\
+            return new Date();\
+        \}\
+\
+        function formatDateTime(date) \{\
+            return date.toLocaleString('id-ID', \{\
+                year: 'numeric',\
+                month: '2-digit',\
+                day: '2-digit',\
+                hour: '2-digit',\
+                minute: '2-digit',\
+                second: '2-digit'\
+            \});\
+        \}\
+\
+        function formatDate(date) \{\
+            return date.toLocaleDateString('id-ID');\
+        \}\
+\
+        function formatTime(date) \{\
+            return date.toLocaleTimeString('id-ID', \{\
+                hour: '2-digit',\
+                minute: '2-digit'\
+            \});\
+        \}\
+\
+        function showMessage(message, type) \{\
+            const messageDiv = document.getElementById('statusMessage');\
+            messageDiv.textContent = message;\
+            messageDiv.className = `mt-4 p-3 rounded-lg text-center fade-in $\{type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'\}`;\
+            messageDiv.classList.remove('hidden');\
+            \
+            setTimeout(() => \{\
+                messageDiv.classList.add('hidden');\
+            \}, 3000);\
+        \}\
+\
+        function clockIn() \{\
+            const name = document.getElementById('employeeName').value;\
+            const division = document.getElementById('employeeDivision').value;\
+            const shift = document.getElementById('employeeShift').value;\
+\
+            if (!name || !division || !shift) \{\
+                showMessage('Mohon isi nama, pilih divisi, dan pilih shift', 'error');\
+                return;\
+            \}\
+\
+            if (!currentPhoto) \{\
+                showMessage('Mohon ambil foto selfie terlebih dahulu!', 'error');\
+                return;\
+            \}\
+\
+            const now = getCurrentDateTime();\
+            const today = formatDate(now);\
+\
+            // Check if already clocked in today\
+            const existingRecord = attendanceData.find(record => \
+                record.employeeName === name && record.division === division && record.date === today && record.shift === shift\
+            );\
+\
+            if (existingRecord && existingRecord.clockIn) \{\
+                showMessage('Anda sudah absen masuk hari ini', 'error');\
+                return;\
+            \}\
+\
+            // Create or update record\
+            if (existingRecord) \{\
+                existingRecord.clockIn = now;\
+                existingRecord.clockInTime = formatTime(now);\
+            \} else \{\
+                attendanceData.push(\{\
+                    date: today,\
+                    employeeName: name,\
+                    division: division,\
+                    shift: shift,\
+                    clockIn: now,\
+                    clockInTime: formatTime(now),\
+                    clockOut: null,\
+                    clockOutTime: '-',\
+                    totalHours: '-',\
+                    status: 'Masuk',\
+                    clockInPhoto: currentPhoto,\
+                    clockOutPhoto: null\
+                \});\
+            \}\
+\
+            saveData();\
+            \
+            if (isAdminLoggedIn) \{\
+                updateAdminDashboard();\
+            \}\
+            \
+            showMessage(`Berhasil absen masuk pada $\{formatTime(now)\}`, 'success');\
+            resetCamera();\
+        \}\
+\
+        function clockOut() \{\
+            const name = document.getElementById('employeeName').value;\
+            const division = document.getElementById('employeeDivision').value;\
+            const shift = document.getElementById('employeeShift').value;\
+\
+            if (!name || !division || !shift) \{\
+                showMessage('Mohon isi nama, pilih divisi, dan pilih shift', 'error');\
+                return;\
+            \}\
+\
+            if (!currentPhoto) \{\
+                showMessage('Mohon ambil foto selfie terlebih dahulu!', 'error');\
+                return;\
+            \}\
+\
+            const now = getCurrentDateTime();\
+            const today = formatDate(now);\
+\
+            // Find today's record\
+            const record = attendanceData.find(record => \
+                record.employeeName === name && record.division === division && record.date === today && record.shift === shift\
+            );\
+\
+            if (!record || !record.clockIn) \{\
+                showMessage('Anda belum absen masuk hari ini', 'error');\
+                return;\
+            \}\
+\
+            if (record.clockOut) \{\
+                showMessage('Anda sudah absen pulang hari ini', 'error');\
+                return;\
+            \}\
+\
+            // Update record\
+            record.clockOut = now;\
+            record.clockOutTime = formatTime(now);\
+            record.clockOutPhoto = currentPhoto;\
+            \
+            // Calculate total hours\
+            const diffMs = now - record.clockIn;\
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));\
+            const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));\
+            record.totalHours = `$\{diffHours\}j $\{diffMinutes\}m`;\
+            record.status = 'Selesai';\
+\
+            saveData();\
+            \
+            if (isAdminLoggedIn) \{\
+                updateAdminDashboard();\
+            \}\
+            \
+            showMessage(`Berhasil absen pulang pada $\{formatTime(now)\}`, 'success');\
+            resetCamera();\
+        \}\
+\
+        function resetCamera() \{\
+            currentPhoto = null;\
+            \
+            document.getElementById('video').classList.add('hidden');\
+            document.getElementById('photoPreview').classList.add('hidden');\
+            document.getElementById('takePictureBtn').classList.add('hidden');\
+            document.getElementById('retakePictureBtn').classList.add('hidden');\
+            document.getElementById('startCameraBtn').classList.remove('hidden');\
+            \
+            if (stream) \{\
+                stream.getTracks().forEach(track => track.stop());\
+                stream = null;\
+            \}\
+        \}\
+\
+        function saveData() \{\
+            localStorage.setItem('attendanceData', JSON.stringify(attendanceData));\
+        \}\
+\
+        function loadAdminDashboard() \{\
+            updateStatistics();\
+            loadDataTable();\
+        \}\
+\
+        function updateAdminDashboard() \{\
+            if (!document.getElementById('exportSection').classList.contains('hidden')) \{\
+                updateStatistics();\
+                loadDataTable();\
+                \
+                const notification = document.createElement('div');\
+                notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 fade-in';\
+                notification.innerHTML = '\uc0\u9989  Dashboard diperbarui otomatis!';\
+                document.body.appendChild(notification);\
+                \
+                setTimeout(() => \{\
+                    if (document.body.contains(notification)) \{\
+                        document.body.removeChild(notification);\
+                    \}\
+                \}, 3000);\
+            \}\
+        \}\
+\
+        function updateStatistics() \{\
+            const today = formatDate(new Date());\
+            const todayRecords = attendanceData.filter(record => record.date === today);\
+            const incompleteRecords = attendanceData.filter(record => record.clockIn && !record.clockOut);\
+\
+            document.getElementById('totalRecords').textContent = attendanceData.length;\
+            document.getElementById('todayAttendance').textContent = todayRecords.length;\
+            document.getElementById('lateEmployees').textContent = '0';\
+            document.getElementById('incompleteRecords').textContent = incompleteRecords.length;\
+        \}\
+\
+        function loadDataTable() \{\
+            const sortedData = [...attendanceData].sort((a, b) => new Date(b.date) - new Date(a.date));\
+            \
+            const tableBody = document.getElementById('dataTableBody');\
+            tableBody.innerHTML = '';\
+\
+            sortedData.slice(0, 10).forEach(record => \{\
+                const row = document.createElement('tr');\
+                row.className = 'hover:bg-gray-50';\
+                \
+                const status = !record.clockOut ? 'Belum Pulang' : 'Selesai';\
+                const statusClass = !record.clockOut ? 'text-red-600' : 'text-green-600';\
+\
+                row.innerHTML = `\
+                    <td class="px-3 py-2">$\{record.date\}</td>\
+                    <td class="px-3 py-2">$\{record.employeeName\}</td>\
+                    <td class="px-3 py-2">$\{record.division\}</td>\
+                    <td class="px-3 py-2">$\{record.shift\}</td>\
+                    <td class="px-3 py-2 text-center">$\{record.clockInTime || '-'\}</td>\
+                    <td class="px-3 py-2 text-center">$\{record.clockOutTime || '-'\}</td>\
+                    <td class="px-3 py-2 text-center $\{statusClass\}">$\{status\}</td>\
+                `;\
+                tableBody.appendChild(row);\
+            \});\
+        \}\
+\
+        function exportToCSV() \{\
+            if (attendanceData.length === 0) \{\
+                showMessage('Tidak ada data untuk diekspor', 'error');\
+                return;\
+            \}\
+\
+            const sortedData = [...attendanceData].sort((a, b) => new Date(b.date) - new Date(a.date));\
+            const currentDate = new Date().toLocaleDateString('id-ID', \{ \
+                weekday: 'long', \
+                year: 'numeric', \
+                month: 'long', \
+                day: 'numeric' \
+            \});\
+\
+            const htmlContent = `<!DOCTYPE html>\
+<html>\
+<head>\
+    <meta charset="UTF-8">\
+    <title>Laporan Absensi Karyawan</title>\
+    <style>\
+        @page \{ size: A4; margin: 1in; \}\
+        body \{ font-family: Arial, sans-serif; font-size: 12px; \}\
+        .header \{ text-align: center; margin-bottom: 20px; \}\
+        table \{ width: 100%; border-collapse: collapse; \}\
+        th, td \{ border: 1px solid #000; padding: 8px; text-align: left; \}\
+        th \{ background-color: #f0f0f0; font-weight: bold; \}\
+        @media print \{ body \{ print-color-adjust: exact; \} \}\
+    </style>\
+</head>\
+<body>\
+    <div class="header">\
+        <h2>LAPORAN KEHADIRAN KARYAWAN</h2>\
+        <p>Tanggal: $\{currentDate\}</p>\
+        <p>Total Records: $\{sortedData.length\}</p>\
+    </div>\
+\
+    <table>\
+        <thead>\
+            <tr>\
+                <th>No</th>\
+                <th>Tanggal</th>\
+                <th>Nama</th>\
+                <th>Divisi</th>\
+                <th>Shift</th>\
+                <th>Jam Masuk</th>\
+                <th>Jam Pulang</th>\
+                <th>Total Jam</th>\
+                <th>Status</th>\
+            </tr>\
+        </thead>\
+        <tbody>\
+            $\{sortedData.map((record, index) => `\
+                <tr>\
+                    <td>$\{index + 1\}</td>\
+                    <td>$\{record.date\}</td>\
+                    <td>$\{record.employeeName\}</td>\
+                    <td>$\{record.division\}</td>\
+                    <td>$\{record.shift\}</td>\
+                    <td>$\{record.clockInTime || '-'\}</td>\
+                    <td>$\{record.clockOutTime || '-'\}</td>\
+                    <td>$\{record.totalHours || '-'\}</td>\
+                    <td>$\{!record.clockOut ? 'Belum Pulang' : 'Selesai'\}</td>\
+                </tr>\
+            `).join('')\}\
+        </tbody>\
+    </table>\
+</body>\
+</html>`;\
+\
+            const blob = new Blob([htmlContent], \{ type: 'text/html;charset=utf-8' \});\
+            const url = URL.createObjectURL(blob);\
+            const a = document.createElement('a');\
+            a.href = url;\
+            a.download = `Laporan_Absensi_$\{new Date().toISOString().split('T')[0]\}.html`;\
+            document.body.appendChild(a);\
+            a.click();\
+            document.body.removeChild(a);\
+            URL.revokeObjectURL(url);\
+            \
+            showMessage('Laporan berhasil diunduh!', 'success');\
+        \}\
+\
+        function shareViaWhatsApp() \{\
+            const today = formatDate(new Date());\
+            const todayRecords = attendanceData.filter(record => record.date === today);\
+            \
+            const message = `\uc0\u55356 \u57314  *LAPORAN ABSENSI KARYAWAN*\\n\\n` +\
+                          `\uc0\u55357 \u56517  *Tanggal:* $\{today\}\\n` +\
+                          `\uc0\u55357 \u56522  *Statistik Hari Ini:*\\n` +\
+                          `\'95 Total Absen: $\{todayRecords.length\} orang\\n` +\
+                          `\'95 Sudah Pulang: $\{todayRecords.filter(r => r.clockOut).length\} orang\\n` +\
+                          `\'95 Belum Pulang: $\{todayRecords.filter(r => r.clockIn && !r.clockOut).length\} orang\\n\\n` +\
+                          `\uc0\u55357 \u56520  *Total Keseluruhan:* $\{attendanceData.length\} records\\n\\n` +\
+                          `\uc0\u10024  Sistem Absensi Digital`;\
+\
+            const encodedMessage = encodeURIComponent(message);\
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);\
+            const whatsappUrl = isMobile ? `https://wa.me/?text=$\{encodedMessage\}` : `https://web.whatsapp.com/send?text=$\{encodedMessage\}`;\
+            \
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');\
+            showMessage('WhatsApp terbuka! Laporan siap dibagikan.', 'success');\
+        \}\
+\
+        function shareViaEmail() \{\
+            const today = formatDate(new Date());\
+            const subject = encodeURIComponent(`Laporan Absensi Karyawan - $\{today\}`);\
+            const body = encodeURIComponent(`Laporan absensi karyawan tanggal $\{today\}\\n\\nTotal records: $\{attendanceData.length\}\\n\\nSistem Absensi Digital`);\
+            \
+            window.open(`mailto:?subject=$\{subject\}&body=$\{body\}`, '_blank');\
+            showMessage('Email client terbuka! Laporan siap dikirim.', 'success');\
+        \}\
+\
+        function clearData() \{\
+            if (confirm('PERINGATAN: Ini akan menghapus SEMUA data absensi!\\n\\nApakah Anda yakin?')) \{\
+                attendanceData = [];\
+                saveData();\
+                loadAdminDashboard();\
+                showMessage('Semua data berhasil dihapus!', 'success');\
+            \}\
+        \}\
+    </script>\
+<script>(function()\{function c()\{var b=a.contentDocument||a.contentWindow.document;if(b)\{var d=b.createElement('script');d.innerHTML="window.__CF$cv$params=\{r:'9899c5efd6746034',t:'MTc1OTYzNDMyMi4wMDAwMDA='\};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)\}\}if(document.body)\{var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else\{var e=document.onreadystatechange||function()\{\};document.onreadystatechange=function(b)\{e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())\}\}\}\})();</script></body>\
+</html>\
+}
